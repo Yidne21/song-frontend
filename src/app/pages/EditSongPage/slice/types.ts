@@ -12,7 +12,7 @@ export interface EditSongPageState {
   errorMessage: string;
 }
 
-export interface IUploadAction {
+export interface IUpdateAction {
   _id: string;
   title: string;
   album: string;

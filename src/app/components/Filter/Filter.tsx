@@ -6,12 +6,16 @@ import { SelectInput } from '../Blocks/input/input';
 import { filterBy } from 'utils/constant';
 import * as Yup from 'yup';
 import SearchBy from './SearchBy';
+import { useManageSongPageSlice } from 'app/pages/ManageSong/slices';
+import { useDispatch } from 'react-redux';
+import { IFilterProps } from './types';
 
-const validationSchema = Yup.object({
-  filterBy: Yup.string().required('atleast one filter type is required'),
-});
-
-function Filter() {
+function Filter(props: IFilterProps) {
+  const dispatch = useDispatch();
+  const { actions } = useManageSongPageSlice();
+  const validationSchema = Yup.object({
+    filterBy: Yup.string().required('atleast one filter type is required'),
+  });
   return (
     <Box
       backgroundColor={'white'}
@@ -24,14 +28,14 @@ function Filter() {
         <Formik
           initialValues={{ filterBy: 'title', search: '' }}
           onSubmit={values => {
-            // dispatch(
-            //   actions.filterSongs({
-            //     filterBy: values.filterBy,
-            //     search: values.search,
-            //   }),
-            // );
-            // props.setFilter(values.filterBy);
-            // props.setSearch(values.search);
+            dispatch(
+              actions.filterSongs({
+                filterBy: values.filterBy,
+                search: values.search,
+              }),
+            );
+            props.setFilter(values.filterBy);
+            props.setSearch(values.search);
           }}
           validationSchema={validationSchema}
         >

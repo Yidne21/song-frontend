@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 import { EditSongPageSaga } from './saga';
-import { EditSongPageState, IUploadAction } from './types';
+import { EditSongPageState, IUpdateAction } from './types';
 
 export const initialState: EditSongPageState = {
   songs: {
@@ -20,7 +20,7 @@ export const slice = createSlice({
   name: 'editsongspage',
   initialState,
   reducers: {
-    updateSong: (state, action: PayloadAction<IUploadAction>) => {
+    updateSong: (state, action: PayloadAction<IUpdateAction>) => {
       state.isUpdating = true;
       state.errorMessage = '';
       console.log(action);

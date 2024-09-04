@@ -6,15 +6,21 @@ import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutl
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
 import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
+import { useManageSongPageSlice } from 'app/pages/ManageSong/slices';
+import { useDispatch } from 'react-redux';
 
 function SongCard(props: SongCardProps) {
   const navigate = useNavigate();
+  const { actions } = useManageSongPageSlice();
+  const dispatch = useDispatch();
+
   const handleEdit = () => {
     navigate(`/edit/${props.song._id}`);
   };
 
   const handleDelete = () => {
-    console.log('Delete', props.song._id);
+    console.log('delete song');
+    dispatch(actions.deleteSong(props.song._id));
   };
 
   return (

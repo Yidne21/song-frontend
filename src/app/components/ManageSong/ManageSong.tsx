@@ -4,8 +4,16 @@ import { Flex } from '../Blocks';
 import Filter from '../Filter/Filter';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Button } from '../Blocks';
+import { useNavigate } from 'react-router-dom';
+import { IManageSongProps } from './types';
 
-function ManageSong() {
+function ManageSong(props: IManageSongProps) {
+  const navigate = useNavigate();
+
+  const handleAddSong = () => {
+    navigate('/add');
+  };
+
   return (
     <Flex alignItems="center" flexDirection="column" padding="30px 88px 40px">
       <Flex
@@ -14,8 +22,13 @@ function ManageSong() {
         justifyContent={'space-between'}
         width={'100%'}
       >
-        <Filter />
-        <Button bg={'blue'} color={'#fff'} padding={'14px'}>
+        <Filter setFilter={props.setFilter} setSearch={props.setSearch} />
+        <Button
+          bg={'blue'}
+          color={'#fff'}
+          onClick={handleAddSong}
+          padding={'14px'}
+        >
           <AddOutlinedIcon
             onClick={() => console.log('add song')}
             sx={{ fontSize: '20px', color: 'white' }}
@@ -23,7 +36,7 @@ function ManageSong() {
           Add New Song
         </Button>
       </Flex>
-      <SongList />
+      <SongList songs={props.songs} />
     </Flex>
   );
 }

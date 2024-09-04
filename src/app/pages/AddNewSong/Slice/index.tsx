@@ -3,13 +3,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { AddSongPageSaga } from './saga';
-import { AddSongPageState, IAddNewSong, IAddNewSongAction } from './types';
+import { AddSongPageState, IAddNewSong } from './types';
 
 export const initialState: AddSongPageState = {
   errorMessage: '',
-  audioPath: '',
-  isUploading: false,
-  isUploaded: false,
   isAdding: false,
   isAdded: false,
 };
@@ -18,32 +15,17 @@ const slice = createSlice({
   name: 'addsongPage',
   initialState,
   reducers: {
-    addSong(state,action: PayloadAction<IAddNewSongAction>) {
+    addSong(state, action: PayloadAction<IAddNewSong>) {
       state.isAdding = true;
     },
-    addSongSuccess: (state,action: PayloadAction<IAddNewSong>) => {
+    addSongSuccess: (state, action: PayloadAction<IAddNewSong>) => {
       state.isAdded = true;
       state.isAdding = false;
     },
     addSongFailed: (state, action: PayloadAction<string>) => {
-    
+      state.isAdded = false;
+      state.isAdding = false;
       state.errorMessage = action.payload;
-    },
-    audioUpload(state, action: PayloadAction<any>) {
-      state.isUploading = true;
-      state.isUploaded = false;
-      state.errorMessage = '';
-    },
-    audioUploadSuccess(state, action: PayloadAction<string>) {
-      state.audioPath = action.payload;
-      state.errorMessage = '';
-      state.isUploaded = true;
-      state.isUploading = false;
-    },
-    audioUploadFailed(state, action: PayloadAction<any>) {
-      state.errorMessage = action.payload;
-      state.isUploading = false;
-      state.isUploaded = false;
     },
   },
 });

@@ -1,14 +1,21 @@
-import apiRoute from '../../../../api/constants';
 import { AxiosResponse } from 'axios';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import {  put, takeLatest } from 'redux-saga/effects';
 import { editsongspageActions as actions } from '.';
 import API from '../../../../api/index';
+import { IUpdateAction } from './types';
+import { PayloadAction } from '@reduxjs/toolkit';
 
-function* handleUpdateSong(action: any) {
+
+function* handleUpdateSong(action: PayloadAction<IUpdateAction>) {
   try {
     const res: AxiosResponse = yield API({
       method: 'PUT',
-      payload: action.payload,
+      payload: {
+        title: action.payload.title,
+        genre: action.payload.genre,
+        artist: action.payload.artist,
+        album: action.payload.album, 
+      },
       route: `/song/update/${action.payload._id}`,
     });
     if (res.status === 200) {
@@ -20,23 +27,7 @@ function* handleUpdateSong(action: any) {
   }
 }
 
-function* handleUpdateAudio(action: any) {
-  const data = new FormData();
-  data.append('audio', action.payload);
-  try {
-    const res: AxiosResponse = yield call(API, {
-      method: 'POST',
-      route: apiRoute.audioUpload,
-      payload: data,
-    });    
-    yield put(actions.updateAudioSuccess(res.data));
-  } catch (error) {
-    yield put(actions.updateAudioFailed(error));
-  }
-}
 
 export function* EditSongPageSaga() {
   yield takeLatest(actions.updateSong.type, handleUpdateSong);
-  yield takeLatest(actions.UpdateAudio.type, handleUpdateAudio);
-
 }

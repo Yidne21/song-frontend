@@ -1,10 +1,11 @@
-import { GenersType } from '../AddNewSong/types';
+import { GenersType } from '../Form/types';
 
-export type SelectProps={
-    handleChange?: () => void;    name:string,
-    type:string,
-    lable:string,
-    options:GenersType[],
-    value: string | unknown,
-    onChange?: (e: any) => void
+export type SelectProps = {
+  handleChange?: () => void;
+  name: string;
+  type: string;
+  label: string;
+  value: string;
+  onChange?: (e: any) => void;
+  options: GenersType[];
 };

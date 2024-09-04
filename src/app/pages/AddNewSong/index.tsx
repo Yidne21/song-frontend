@@ -5,8 +5,7 @@ import { useAddSongPageSlice } from './Slice';
 import {
   selectErrorMessage,
   selectIsAdded,
-  selectIsUploaded,
-  selectIsUploading,
+  selectIsAdding,
 } from './Slice/selectors';
 import { useNavigate } from 'react-router-dom';
 import { Flex } from 'app/components/Blocks';
@@ -17,10 +16,9 @@ function AddNewSong() {
 
   const dispatch = useDispatch();
   const { actions } = useAddSongPageSlice();
-  const isUploading = useSelector(selectIsUploading);
-  const isUploaded = useSelector(selectIsUploaded);
   const errorMessage = useSelector(selectErrorMessage);
   const isAddded = useSelector(selectIsAdded);
+  const isAdding = useSelector(selectIsAdding);
 
   const handleSubmit = (values: initialValuesType) => {
     dispatch(
@@ -44,8 +42,8 @@ function AddNewSong() {
       <AddNewSongComponent
         errorMessage={errorMessage}
         handleSubmit={handleSubmit}
-        isUploaded={isUploaded}
-        isUploading={isUploading}
+        isAdded={isAddded}
+        isAdding={isAdding}
       />
     </Flex>
   );

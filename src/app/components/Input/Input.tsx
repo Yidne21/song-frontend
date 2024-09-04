@@ -15,7 +15,7 @@ function InputField(props: InputProps) {
         mt="10px"
         textAlign={'center'}
       >
-        {props.lable}
+        {props.label}
       </Text>
       {props.type === 'textarea' ? (
         <FieldInput name={props.name} onChange={props.onChange}>

@@ -1,7 +1,7 @@
 export type InputProps = {
   name: string;
   type: string;
-  lable: string;
+  label: string;
   value?: string;
   onChange?: any;
 };

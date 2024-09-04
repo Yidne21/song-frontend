@@ -7,19 +7,17 @@ import apiRoute from '../../../../api/constants';
 import { IAddNewSong } from './types';
 
 
-function* handleAddSong(action: PayloadAction<any>) {
+function* handleAddSong(action: PayloadAction<IAddNewSong>) {
   
   try {
     const res: AxiosResponse<IAddNewSong> = yield call(API, {
       method: 'POST',
       route: apiRoute.createSong,
       payload: {
-        name: action.payload.name,
-        description: action.payload.description,
-        artist: action.payload.artist,
-        releaseDate: action.payload.releaseDate,
+        title: action.payload.title,
         genre: action.payload.genre,
-        audio: action.payload.audio,
+        artist: action.payload.artist,
+        album: action.payload.album,
       },
     });
 
@@ -33,23 +31,7 @@ function* handleAddSong(action: PayloadAction<any>) {
   }
 }
 
-function* handleAudioUpload(action: any) {
-  const data = new FormData();
-  data.append('audio', action.payload);
-  try {
-    const res: AxiosResponse = yield call(API, {
-      method: 'POST',
-      route: apiRoute.audioUpload,
-      payload: data,
-    });
-
-    yield put(actions.audioUploadSuccess(res.data));
-  } catch (error) {
-    yield put(actions.audioUploadFailed(error));
-  }
-}
 
 export function* AddSongPageSaga() {
   yield takeLatest(actions.addSong.type, handleAddSong);
-  yield takeLatest(actions.audioUpload.type, handleAudioUpload);
 }

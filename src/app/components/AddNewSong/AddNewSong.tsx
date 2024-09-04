@@ -8,13 +8,12 @@ function AddNewSongComponent(props: AddNewSongComponentProps) {
     title: '',
     album: '',
     artist: '',
-    genre: '',
+    genre: 'classical',
   };
   const validationSchema = Yup.object({
     title: Yup.string().required('Song title is required'),
     album: Yup.string().required('Song album name is required'),
     artist: Yup.string().required('Artist name is required'),
-    genre: Yup.string().required('Genre is required'),
   });
 
   return (

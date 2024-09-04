@@ -33,5 +33,5 @@ export interface ButtonProps
     SizeProps,
     TextAlignProps,
     FlexboxProps {
-  //  onClick:() => void;
+   onClick:() => void;
 }
