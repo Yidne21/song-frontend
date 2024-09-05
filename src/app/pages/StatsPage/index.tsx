@@ -1,99 +1,58 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { H4 } from '../../components/Blocks/Text/Text';
 import MainStat from 'app/components/StatPageComponent/MainStat';
 import PieStat from 'app/components/StatPageComponent/PieStat';
 import ArtistStat from 'app/components/StatPageComponent/ArtistStat';
 import { Flex } from 'app/components/Blocks';
+import { useDispatch, useSelector } from 'react-redux';
+import { useStatsPageSlice } from './slice';
+import {
+  selectAlbumsStat,
+  selectArtists,
+  selectGenresStat,
+  selectMainStats,
+  selectIsArtistsLoading,
+  selectIsArtistsLoaded,
+  selectIsMainStatLoaded,
+  selectIsMainStatLoading,
+  selectIsAlbumsStatLoaded,
+  selectIsAlbumsStatLoading,
+  selectIsGenreStatLoaded,
+  selectIsGenreStatLoading,
+} from './slice/selectors';
+import CustomPagination from 'app/components/Pagination/Pagination';
+import { selectSkip, selectlimit } from '../ManageSong/slices/selector';
+import ArtistStatSkeleton from 'app/components/skeleton/ArtisListSkeleton';
+import MainStatSkeleton from 'app/components/skeleton/MainStatSkeleton';
+import PieStatSkeleton from 'app/components/skeleton/PiesStatSkeleton';
 
 function Stats() {
-  const data = [
-    {
-      title: 'Songs',
-      stat: 100,
-    },
-    {
-      title: 'Artists',
-      stat: 50,
-    },
-    {
-      title: 'Albums',
-      stat: 20,
-    },
-    {
-      title: 'Genres',
-      stat: 10,
-    },
-  ];
+  const { actions } = useStatsPageSlice();
+  const dispatch = useDispatch();
+  const data = useSelector(selectMainStats);
+  const genres = useSelector(selectGenresStat);
+  const albums = useSelector(selectAlbumsStat);
+  const artists = useSelector(selectArtists);
+  const skip = useSelector(selectSkip);
+  const limit = useSelector(selectlimit);
+  const isArtistsLoading = useSelector(selectIsArtistsLoading) || true;
+  const isArtistsLoaded = useSelector(selectIsArtistsLoaded) || false;
+  const isMainStatLoading = useSelector(selectIsMainStatLoading) || true;
+  const isMainStatLoaded = useSelector(selectIsMainStatLoaded) || false;
+  const isAlbumsStatLoading = useSelector(selectIsAlbumsStatLoading) || true;
+  const isAlbumsStatLoaded = useSelector(selectIsAlbumsStatLoaded) || false;
+  const isGenreStatLoading = useSelector(selectIsGenreStatLoading) || false;
+  const isGenreStatLoaded = useSelector(selectIsGenreStatLoaded) || true;
 
-  const genres = [
-    {
-      id: 1,
-      label: 'Pop',
-      value: 20,
-    },
-    {
-      id: 2,
-      label: 'Rock',
-      value: 15,
-    },
-    {
-      id: 3,
-      label: 'Rap',
-      value: 10,
-    },
-    {
-      id: 4,
-      label: 'Country',
-      value: 5,
-    },
-  ];
+  useEffect(() => {
+    dispatch(actions.getMainStats());
+    dispatch(actions.getGenreStats());
+    dispatch(actions.getAlbumsStats());
+  }, []);
 
-  const artists = [
-    {
-      name: 'Adele',
-      songs: 10,
-      albums: 2,
-    },
-    {
-      name: 'Taylor Swift',
-      songs: 5,
-      albums: 1,
-    },
-    {
-      name: 'Michael Jackson',
-      songs: 2,
-      albums: 1,
-    },
-    {
-      name: 'Eminem',
-      songs: 1,
-      albums: 1,
-    },
-  ];
-
-  const albums = [
-    {
-      id: 1,
-      label: '21',
-      value: 10,
-    },
-    {
-      id: 2,
-      label: '1989',
-      value: 5,
-    },
-    {
-      id: 3,
-      label: 'Thriller',
-      value: 2,
-    },
-    {
-      id: 4,
-      label: 'Recovery',
-      value: 1,
-    },
-  ];
-
+  useEffect(() => {
+    dispatch(actions.getArtists({ skip, limit }));
+  }, [skip, limit]);
   return (
     <Flex flexDirection={'column'}>
       <H4
@@ -106,12 +65,29 @@ function Stats() {
       >
         Well Come
       </H4>
-      <MainStat stat={data} />
+      {isMainStatLoading && <MainStatSkeleton />}
+      {!isMainStatLoading && isMainStatLoaded && <MainStat stat={data} />}
       <Flex alignItems={'center'} gap={'10px'} justifyContent={'center'} p={6}>
-        <PieStat stat={genres} title="Number of Songs per Genres" />
-        <PieStat stat={albums} title="Number of Songs per Albums" />
+        {isGenreStatLoading && <PieStatSkeleton />}
+        {!isGenreStatLoading && isGenreStatLoaded && (
+          <PieStat stat={genres} title="Number of Songs per Genre" />
+        )}
+        {isAlbumsStatLoading && <PieStatSkeleton />}
+        {!isAlbumsStatLoading && isAlbumsStatLoaded && (
+          <PieStat stat={albums} title="Number of Songs per Album" />
+        )}
       </Flex>
-      <ArtistStat stat={artists} />
+      <Flex
+        alignItems={'center'}
+        flexDirection={'column'}
+        gap={6}
+        justifyContent={'center'}
+        py={6}
+      >
+        {isArtistsLoading && <ArtistStatSkeleton />}
+        {!isArtistsLoading && isArtistsLoaded && <ArtistStat stat={artists} />}
+        <CustomPagination count={10} />
+      </Flex>
     </Flex>
   );
 }

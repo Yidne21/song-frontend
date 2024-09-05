@@ -1,7 +1,6 @@
 import React from 'react';
 import { Flex } from '../Blocks';
 import SongCard from '../Card/SongCard';
-import CustomePagination from '../Pagination/Pagination';
 import { ISongListProps } from './types';
 
 function SongList(props: ISongListProps) {
@@ -17,11 +16,6 @@ function SongList(props: ISongListProps) {
       {props.songs.map((item, index) => (
         <SongCard key={index} song={item} />
       ))}
-      <CustomePagination
-        count={40}
-        onChange={() => console.log('page changed')}
-        page={4}
-      />
     </Flex>
   );
 }

@@ -6,8 +6,17 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Button } from '../Blocks';
 import { useNavigate } from 'react-router-dom';
 import { IManageSongProps } from './types';
+import {
+  selectIsSongsLoaded,
+  selectIsSongsLoading,
+} from 'app/pages/ManageSong/slices/selector';
+import { useSelector } from 'react-redux';
+import SongListSkeleton from '../skeleton/SongListSkeleton';
+import CustomePagination from '../Pagination/Pagination';
 
 function ManageSong(props: IManageSongProps) {
+  const isSongsLoading = useSelector(selectIsSongsLoading) || true;
+  const isSongsLoaded = useSelector(selectIsSongsLoaded);
   const navigate = useNavigate();
 
   const handleAddSong = () => {
@@ -15,7 +24,12 @@ function ManageSong(props: IManageSongProps) {
   };
 
   return (
-    <Flex alignItems="center" flexDirection="column" padding="30px 88px 40px">
+    <Flex
+      alignItems="center"
+      flexDirection="column"
+      gap={'20px'}
+      padding="30px 88px 40px"
+    >
       <Flex
         alignItems={'center'}
         flexDirection={'row'}
@@ -36,7 +50,9 @@ function ManageSong(props: IManageSongProps) {
           Add New Song
         </Button>
       </Flex>
-      <SongList songs={props.songs} />
+      {isSongsLoading && <SongListSkeleton />}
+      {isSongsLoaded && <SongList songs={props.songs} />}
+      <CustomePagination count={props.count} />
     </Flex>
   );
 }

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 
-
 export interface IAddNewSong {
   artist: string;
   album: string;

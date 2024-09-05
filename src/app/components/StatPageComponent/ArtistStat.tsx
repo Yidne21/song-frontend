@@ -9,7 +9,7 @@ function ArtistStat(props: ArtistStatProps) {
       alignItems="center"
       flexDirection="column"
       justifyContent="center"
-      padding="30px 88px 40px"
+      width="100%"
     >
       <Text color="black" fontSize="24px" padding={6} textAlign="center">
         Artists
