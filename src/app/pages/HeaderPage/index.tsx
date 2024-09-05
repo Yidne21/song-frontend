@@ -18,7 +18,7 @@ export const DefaultLayout = (props: IDefaultProps) => {
   return (
     <>
       <Header />
-      <Box maxWidth={'1536'} minHeight="50vh" mx={'auto'} my={0}>
+      <Box maxWidth={'1536'} minHeight="50vh" mx={'auto'} my={50}>
         {props.children}
       </Box>
     </>

@@ -8,11 +8,16 @@ export const Header = () => {
     <Flex
       alignItems={'start'}
       backgroundColor={theme.colors.white[6]}
+      boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.25)'}
       color={theme.colors.black[2]}
       fontFamily={'Roboto'}
       fontSize={['14px', '16px', '18px']}
       pl={[4, 5, 6, 7]}
+      position={'fixed'}
       py={[3, 4, 4]}
+      top={0}
+      width={'100%'}
+      zIndex={1000}
     >
       <Link to="/">
         <Text color={'black.1'}>MusicK</Text>
