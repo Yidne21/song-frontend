@@ -46,6 +46,13 @@ export const Button = styled.button<ButtonProps>`
     flexbox,
     background,
   )};
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #485c75;
+    border: 1px solid #f7f7f8;
+  }
 `;
 
 Button.defaultProps = {

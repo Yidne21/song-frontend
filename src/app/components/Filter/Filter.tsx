@@ -62,7 +62,6 @@ function Filter(props: IFilterProps) {
                       name="filterBy"
                       onChange={e => {
                         setFieldValue('filterBy', e.target.value);
-                        setFieldValue('search', '');
                       }}
                       padding={3}
                       width={'200px'}

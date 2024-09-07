@@ -6,7 +6,7 @@ export interface ISong {
   artist: string;
 }
 export interface EditSongPageState {
-  songs?: ISong;
+  song?: ISong;
   isUpdating: boolean;
   isUpdated: boolean;
   errorMessage: string;

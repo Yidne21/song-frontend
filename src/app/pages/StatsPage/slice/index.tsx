@@ -5,99 +5,11 @@ import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { StatsPageSaga } from './saga';
 import { StatsPageState } from './types';
 
-const data = [
-  {
-    title: 'Songs',
-    stat: 100,
-  },
-  {
-    title: 'Artists',
-    stat: 50,
-  },
-  {
-    title: 'Albums',
-    stat: 20,
-  },
-  {
-    title: 'Genres',
-    stat: 10,
-  },
-];
-
-const genres = [
-  {
-    id: 1,
-    label: 'Pop',
-    value: 20,
-  },
-  {
-    id: 2,
-    label: 'Rock',
-    value: 15,
-  },
-  {
-    id: 3,
-    label: 'Rap',
-    value: 10,
-  },
-  {
-    id: 4,
-    label: 'Country',
-    value: 5,
-  },
-];
-
-const artists = [
-  {
-    name: 'Adele',
-    songs: 10,
-    albums: 2,
-  },
-  {
-    name: 'Taylor Swift',
-    songs: 5,
-    albums: 1,
-  },
-  {
-    name: 'Michael Jackson',
-    songs: 2,
-    albums: 1,
-  },
-  {
-    name: 'Eminem',
-    songs: 1,
-    albums: 1,
-  },
-];
-
-const albums = [
-  {
-    id: 1,
-    label: '21',
-    value: 10,
-  },
-  {
-    id: 2,
-    label: '1989',
-    value: 5,
-  },
-  {
-    id: 3,
-    label: 'Thriller',
-    value: 2,
-  },
-  {
-    id: 4,
-    label: 'Recovery',
-    value: 1,
-  },
-];
-
 export const initialState: StatsPageState = {
-  mainStats: data,
-  genresStat: genres,
-  albumsStat: albums,
-  artists: artists,
+  mainStats: [],
+  genresStat: [],
+  albumsStat: [],
+  artists: [],
   isMainStatLoading: false,
   isMainStatLoaded: false,
   isGenreStatLoading: false,
@@ -110,7 +22,9 @@ export const initialState: StatsPageState = {
   errorMsgArtists: '',
   errorGenreStat: '',
   errorAlbumsStat: '',
-  artistsCount: 40,
+  artistsCount: 0,
+  skip: 1,
+  limit: 5,
 };
 
 const slice = createSlice({
@@ -122,6 +36,7 @@ const slice = createSlice({
       state.isMainStatLoaded = false;
     },
     getMainStatsSuccess(state, action) {
+      console.log('Main stat response', action.payload);
       state.mainStats = action.payload;
       state.isMainStatLoading = false;
       state.isMainStatLoaded = true;
@@ -148,10 +63,10 @@ const slice = createSlice({
       state.isArtistsLoaded = false;
     },
     getArtistsSuccess(state, action) {
-      state.artists = action.payload;
+      state.artists = action.payload.data;
       state.isArtistsLoading = false;
       state.isArtistsLoaded = true;
-      state.artistsCount = action.payload.length;
+      state.artistsCount = action.payload.totalPages;
     },
     getArtistsError(state, action) {
       state.isArtistsLoading = false;
@@ -169,6 +84,9 @@ const slice = createSlice({
     getAlbumsStatsError(state, action) {
       state.isAlbumsStatLoading = false;
       state.errorAlbumsStat = action.payload;
+    },
+    setSkip(state, action: PayloadAction<number>) {
+      state.skip = action.payload;
     },
   },
 });

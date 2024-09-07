@@ -17,6 +17,7 @@ const slice = createSlice({
   reducers: {
     addSong(state, action: PayloadAction<IAddNewSong>) {
       state.isAdding = true;
+      state.isAdded = false;
     },
     addSongSuccess: (state, action: PayloadAction<IAddNewSong>) => {
       state.isAdded = true;
@@ -26,6 +27,11 @@ const slice = createSlice({
       state.isAdded = false;
       state.isAdding = false;
       state.errorMessage = action.payload;
+    },
+    resetState(state) {
+      state.isAdded = false;
+      state.isAdding = false;
+      state.errorMessage = '';
     },
   },
 });

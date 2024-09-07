@@ -2,6 +2,7 @@ import { ISong } from 'app/pages/EditSongPage/slice/types';
 
 export interface ManageSongPageState {
   isDeleting: boolean;
+  isDeleted: boolean;
   isSongsLoading: boolean;
   isSongsLoaded: boolean;
   songs?: ISong[];
@@ -12,8 +13,8 @@ export interface ManageSongPageState {
 }
 
 export interface IResponsePayload {
-  songs?: ISong[];
-  count: number;
+  data?: ISong[];
+  totalPages: number;
 }
 export interface IFilterSongsPayload {
   filterBy: string;

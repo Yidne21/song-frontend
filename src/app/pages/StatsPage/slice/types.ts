@@ -33,4 +33,6 @@ export type StatsPageState = {
   errorAlbumsStat: string;
   errorMsgArtists: string;
   artistsCount: number;
+  skip: number;
+  limit: number;
 };

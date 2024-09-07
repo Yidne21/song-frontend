@@ -9,7 +9,8 @@ import {
 } from './Slice/selectors';
 import { useNavigate } from 'react-router-dom';
 import { Flex } from 'app/components/Blocks';
-import { initialValuesType } from 'app/components/Form/types';
+import { initialValues } from 'app/components/Form/types';
+import showToast from 'app/components/Toast/ShowToast';
 
 function AddNewSong() {
   const navigate = useNavigate();
@@ -20,7 +21,18 @@ function AddNewSong() {
   const isAddded = useSelector(selectIsAdded);
   const isAdding = useSelector(selectIsAdding);
 
-  const handleSubmit = (values: initialValuesType) => {
+  if (errorMessage) {
+    showToast(errorMessage, 'error');
+    dispatch(actions.resetState());
+  }
+
+  if (isAddded) {
+    showToast('Song added successfully', 'success');
+    navigate('/manage');
+    dispatch(actions.resetState());
+  }
+
+  const handleSubmit = (values: initialValues) => {
     dispatch(
       actions.addSong({
         title: values.title,
@@ -29,9 +41,6 @@ function AddNewSong() {
         album: values.album,
       }),
     );
-    if (isAddded) {
-      navigate('/');
-    }
   };
   return (
     <Flex

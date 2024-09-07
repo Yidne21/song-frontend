@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SongList from '../SongList/SongList';
 import { Flex } from '../Blocks';
 import Filter from '../Filter/Filter';
@@ -9,14 +9,26 @@ import { IManageSongProps } from './types';
 import {
   selectIsSongsLoaded,
   selectIsSongsLoading,
+  selectSongs,
 } from 'app/pages/ManageSong/slices/selector';
 import { useSelector } from 'react-redux';
 import SongListSkeleton from '../skeleton/SongListSkeleton';
 import CustomePagination from '../Pagination/Pagination';
+import { Text } from '../Blocks/Text/Text';
+import { ISong } from 'app/pages/AddNewSong/Slice/types';
 
 function ManageSong(props: IManageSongProps) {
-  const isSongsLoading = useSelector(selectIsSongsLoading) || true;
+  const isSongsLoading = useSelector(selectIsSongsLoading);
   const isSongsLoaded = useSelector(selectIsSongsLoaded);
+  const currentSong = useSelector(selectSongs);
+  const [songs, setSongs] = useState<ISong[]>([]);
+
+  useEffect(() => {
+    if (currentSong) {
+      setSongs(currentSong);
+    }
+  }, [currentSong]);
+
   const navigate = useNavigate();
 
   const handleAddSong = () => {
@@ -51,8 +63,32 @@ function ManageSong(props: IManageSongProps) {
         </Button>
       </Flex>
       {isSongsLoading && <SongListSkeleton />}
-      {isSongsLoaded && <SongList songs={props.songs} />}
-      <CustomePagination count={props.count} />
+      {songs && <SongList songs={songs} />}
+      {isSongsLoaded && songs?.length === 0 && (
+        <Flex
+          alignItems="center"
+          flexDirection="column"
+          gap="10px"
+          justifyContent="center"
+          width="100%"
+        >
+          <Text
+            color="black.5"
+            fontSize="20px"
+            fontWeight="bold"
+            lineHeight="30px"
+          >
+            No songs found
+          </Text>
+        </Flex>
+      )}
+      {songs && songs.length > 0 && (
+        <CustomePagination
+          count={props.count}
+          handleChange={props.handleChange}
+          page={props.page}
+        />
+      )}
     </Flex>
   );
 }

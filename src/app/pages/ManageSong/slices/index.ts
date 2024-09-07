@@ -12,42 +12,12 @@ import {
 } from './types';
 import { ManageSongsSaga } from './saga';
 
-const songs = [
-  {
-    title: 'Hello',
-    artist: 'Adele',
-    album: '21',
-    genre: 'classical',
-    _id: '1',
-  },
-  {
-    title: 'Shake It Off',
-    artist: 'Taylor Swift',
-    album: '1989',
-    genre: 'classical',
-    _id: '2',
-  },
-  {
-    title: 'Billie Jean',
-    artist: 'Michael Jackson',
-    album: 'Thriller',
-    genre: 'classical',
-    _id: '3',
-  },
-  {
-    title: 'Not Afraid',
-    artist: 'Eminem',
-    album: 'Recovery',
-    genre: 'classical',
-    _id: '4',
-  },
-];
-
 export const initialState: ManageSongPageState = {
   isDeleting: false,
+  isDeleted: false,
   isSongsLoading: false,
   isSongsLoaded: false,
-  songs: songs,
+  songs: [],
   errorMessage: '',
   count: 40,
   skip: 1,
@@ -60,11 +30,16 @@ export const slice = createSlice({
   reducers: {
     deleteSong(state, action) {
       state.isDeleting = true;
+      state.isDeleted = false;
+      state.errorMessage = '';
     },
     deleteSongSuccess(state, action: PayloadAction<IDeleteSong>) {
       state.isDeleting = false;
+      state.isDeleted = true;
     },
     deleteSongFailed: (state, action) => {
+      state.isDeleting = false;
+      state.isDeleted = false;
       state.errorMessage = action.payload;
     },
     getAllSongs(state, action: PayloadAction<IGetAllSongs>) {
@@ -79,21 +54,35 @@ export const slice = createSlice({
     getAllSongsSuccess(state, action: PayloadAction<IResponsePayload>) {
       state.isSongsLoading = false;
       state.isSongsLoaded = true;
-      state.songs = action.payload.songs;
-      state.count = action.payload.count;
+      state.songs = action.payload.data;
+      state.count = action.payload.totalPages;
     },
     setSkip(state, action: PayloadAction<number>) {
       state.skip = action.payload;
     },
-    filterSongs: (state, action: PayloadAction<IFilterSongsPayload>) => {},
+    filterSongs: (state, action: PayloadAction<IFilterSongsPayload>) => {
+      state.isSongsLoading = true;
+      state.isSongsLoaded = false;
+    },
     filterSongsSucces: (
       state,
       action: PayloadAction<IFilterSongsSuccessPayload>,
     ) => {
+      state.isSongsLoading = false;
+      state.isSongsLoaded = true;
       state.songs = action.payload.songs;
     },
     filterSongsFailed: (state, action) => {
+      state.isSongsLoading = false;
+      state.isSongsLoaded = false;
       state.errorMessage = action.payload;
+    },
+    resetState(state) {
+      state.isDeleting = false;
+      state.isDeleted = false;
+      state.isSongsLoading = false;
+      state.isSongsLoaded = false;
+      state.errorMessage = '';
     },
   },
 });

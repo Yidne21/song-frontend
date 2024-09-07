@@ -19,9 +19,11 @@ import {
   selectIsAlbumsStatLoading,
   selectIsGenreStatLoaded,
   selectIsGenreStatLoading,
+  selectArtistsCount,
+  selectSkip,
+  selectlimit,
 } from './slice/selectors';
 import CustomPagination from 'app/components/Pagination/Pagination';
-import { selectSkip, selectlimit } from '../ManageSong/slices/selector';
 import ArtistStatSkeleton from 'app/components/skeleton/ArtisListSkeleton';
 import MainStatSkeleton from 'app/components/skeleton/MainStatSkeleton';
 import PieStatSkeleton from 'app/components/skeleton/PiesStatSkeleton';
@@ -35,14 +37,21 @@ function Stats() {
   const artists = useSelector(selectArtists);
   const skip = useSelector(selectSkip);
   const limit = useSelector(selectlimit);
-  const isArtistsLoading = useSelector(selectIsArtistsLoading) || true;
-  const isArtistsLoaded = useSelector(selectIsArtistsLoaded) || false;
-  const isMainStatLoading = useSelector(selectIsMainStatLoading) || true;
-  const isMainStatLoaded = useSelector(selectIsMainStatLoaded) || false;
-  const isAlbumsStatLoading = useSelector(selectIsAlbumsStatLoading) || true;
-  const isAlbumsStatLoaded = useSelector(selectIsAlbumsStatLoaded) || false;
-  const isGenreStatLoading = useSelector(selectIsGenreStatLoading) || false;
-  const isGenreStatLoaded = useSelector(selectIsGenreStatLoaded) || true;
+  const isArtistsLoading = useSelector(selectIsArtistsLoading);
+  const isArtistsLoaded = useSelector(selectIsArtistsLoaded);
+  const isMainStatLoading = useSelector(selectIsMainStatLoading);
+  const isMainStatLoaded = useSelector(selectIsMainStatLoaded);
+  const isAlbumsStatLoading = useSelector(selectIsAlbumsStatLoading);
+  const isAlbumsStatLoaded = useSelector(selectIsAlbumsStatLoaded);
+  const isGenreStatLoading = useSelector(selectIsGenreStatLoading);
+  const isGenreStatLoaded = useSelector(selectIsGenreStatLoaded);
+  const artistsCount = useSelector(selectArtistsCount);
+
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    dispatch(actions.setSkip(value));
+    setPage(value);
+  };
 
   useEffect(() => {
     dispatch(actions.getMainStats());
@@ -86,7 +95,11 @@ function Stats() {
       >
         {isArtistsLoading && <ArtistStatSkeleton />}
         {!isArtistsLoading && isArtistsLoaded && <ArtistStat stat={artists} />}
-        <CustomPagination count={10} />
+        <CustomPagination
+          count={artistsCount}
+          handleChange={handleChange}
+          page={page}
+        />
       </Flex>
     </Flex>
   );

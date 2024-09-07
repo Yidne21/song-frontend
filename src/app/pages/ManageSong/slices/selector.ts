@@ -28,3 +28,8 @@ export const selectErrorMessage = createSelector(
   [selectSlice],
   state => state.errorMessage,
 );
+
+export const selectIsDeleted = createSelector(
+  [selectSlice],
+  state => state.isDeleted,
+);

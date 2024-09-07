@@ -7,16 +7,16 @@ type apiRouteType = {
   getArtists: string;
   getGenreStats: string;
   getAlbumsStats: string;
-}
+};
 const apiRoute: apiRouteType = {
-  createSong: '/song/createSong',
-  updateSong: '/song/updateSong',
-  deleteSong: '/song/deleteSong',
-  listSong: '/song/list',
-  getMainStats: '/stats/main',
-  getArtists: '/stats/artists',
-  getGenreStats: '/stats/genres',
-  getAlbumsStats: '/stats/albums',
+  createSong: '/song',
+  updateSong: '/song/',
+  deleteSong: '/song',
+  listSong: '/song',
+  getMainStats: '/song/stats/main',
+  getArtists: '/song/stats/artists',
+  getGenreStats: '/song/stats/genres',
+  getAlbumsStats: '/song/stats/albums',
 };
 
 export default apiRoute;

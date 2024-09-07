@@ -12,6 +12,7 @@ function PieStat(props: PieStatProps) {
       gap={'5px'}
       justifyContent={'center'}
       p={4}
+      px={26}
     >
       <Text color="black" fontSize="20px" p={'6px'} textAlign="center">
         {props.title}

@@ -19,7 +19,6 @@ function SongCard(props: SongCardProps) {
   };
 
   const handleDelete = () => {
-    console.log('delete song');
     dispatch(actions.deleteSong(props.song._id));
   };
 

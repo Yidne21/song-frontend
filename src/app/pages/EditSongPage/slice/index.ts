@@ -1,10 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 import { EditSongPageSaga } from './saga';
-import { EditSongPageState, IUpdateAction } from './types';
+import { EditSongPageState } from './types';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { IUpdateAction } from './types';
 
 export const initialState: EditSongPageState = {
-  songs: {
+  song: {
     _id: '',
     title: '',
     album: '',
@@ -22,17 +24,24 @@ export const slice = createSlice({
   reducers: {
     updateSong: (state, action: PayloadAction<IUpdateAction>) => {
       state.isUpdating = true;
+      state.isUpdated = false;
       state.errorMessage = '';
-      console.log(action);
+      console.log(action.payload);
     },
     updateSongSuccess(state) {
       state.isUpdating = false;
       state.isUpdated = true;
-      console.log('successfull');
+      state.errorMessage = '';
     },
-    updateSongFailed(state) {
+    updateSongFailed(state, action) {
       state.isUpdating = false;
-      console.log('Song not updated');
+      state.isUpdated = false;
+      state.errorMessage = action.payload;
+    },
+    resetState(state) {
+      state.isUpdated = false;
+      state.isUpdating = false;
+      state.errorMessage = '';
     },
   },
 });

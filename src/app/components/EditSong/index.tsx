@@ -1,3 +1,4 @@
+import React from 'react';
 import { IEditSongComponentProps } from './types';
 import FormComponent from '../Form';
 import * as Yup from 'yup';
@@ -13,14 +14,15 @@ export const EditSongPageComponents = (props: IEditSongComponentProps) => {
   const initialValues = {
     ...props.song,
   };
+
   return (
     <FormComponent
       errorMessage={props.errorMessage}
       handleSubmit={props.handleSubmit}
       initialValues={initialValues}
       isEdit={true}
-      isLoaded={false}
-      isLoading={false}
+      isLoaded={props.isUpdated}
+      isLoading={props.isUpdating}
       validationSchema={validationSchema}
     />
   );

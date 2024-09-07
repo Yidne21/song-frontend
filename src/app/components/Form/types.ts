@@ -5,7 +5,7 @@ export enum GenreEnum {
   rock = 'rock',
   jazz = 'jazz',
   hipHop = 'hipHop',
-  reggae = 'reggae',
+  reggae = 'raggae',
   country = 'country',
   funk = 'funk',
   disco = 'disco',
@@ -25,11 +25,19 @@ export const genres = [
   { value: GenreEnum.hipHop, label: 'hipHop' },
   { value: GenreEnum.jazz, label: 'jazz' },
   { value: GenreEnum.pop, label: 'pop' },
-  { value: GenreEnum.reggae, label: 'reggae' },
+  { value: GenreEnum.reggae, label: 'raggae' },
   { value: GenreEnum.rock, label: 'rock' },
 ];
 
 export type initialValuesType = {
+  _id?: string;
+  title?: string;
+  album?: string;
+  artist?: string;
+  genre?: string;
+};
+
+export type initialValues = {
   _id: string;
   title: string;
   album: string;
@@ -37,7 +45,7 @@ export type initialValuesType = {
   genre: string;
 };
 export type FormComponentProps = {
-  initialValues: initialValuesType;
+  initialValues: initialValues;
 
   validationSchema: Yup.ObjectSchema<
     {
@@ -53,7 +61,7 @@ export type FormComponentProps = {
     },
     ''
   >;
-  handleSubmit: (values: initialValuesType) => void;
+  handleSubmit: (values: initialValues) => void;
   isLoading: boolean;
   isLoaded: boolean;
   errorMessage: string;

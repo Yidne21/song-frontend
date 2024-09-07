@@ -1,5 +1,4 @@
 import { EditSongPageComponents } from '../../components/EditSong';
-// import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEditSongPageSlice } from './slice';
 import { useDispatch } from 'react-redux';
@@ -9,25 +8,35 @@ import {
   selectIsUpdated,
   selectIsUpdating,
 } from './slice/selector';
+import { selectSongs } from '../ManageSong/slices/selector';
 import { Flex } from 'app/components/Blocks';
+import { useParams } from 'react-router-dom';
+import showToast from '../../components/Toast/ShowToast';
+import { useNavigate } from 'react-router-dom';
 
 export const EditSongPage = () => {
   const { actions } = useEditSongPageSlice();
-  // const params = useParams();
+  const params = useParams();
 
-  // const { id } = params;
+  const { songId } = params;
 
-  const song = {
-    _id: 'hfdfh789346579745',
-    title: 'New song',
-    album: 'test',
-    artist: 'Yidne',
-    genre: 'classical',
-  };
   const dispatch = useDispatch();
   const isUpdating = useSelector(selectIsUpdating);
   const isUpdated = useSelector(selectIsUpdated);
   const errorMessage = useSelector(selectErrorMessage);
+  const songs = useSelector(selectSongs);
+  const song = songs?.find(song => song._id === songId);
+  const navigate = useNavigate();
+
+  if (errorMessage) {
+    showToast(errorMessage, 'error');
+  }
+
+  if (isUpdated) {
+    showToast('Song updated successfully', 'success');
+    navigate('/manage');
+    dispatch(actions.resetState());
+  }
 
   const handleSubmit = (values: initialValuesType) => {
     dispatch(
@@ -47,13 +56,15 @@ export const EditSongPage = () => {
       backgroundColor={'white'}
       justifyContent={'center'}
     >
-      <EditSongPageComponents
-        errorMessage={errorMessage}
-        handleSubmit={handleSubmit}
-        isUpdated={isUpdated}
-        isUpdating={isUpdating}
-        song={song}
-      />
+      {song && (
+        <EditSongPageComponents
+          errorMessage={errorMessage}
+          handleSubmit={handleSubmit}
+          isUpdated={isUpdated}
+          isUpdating={isUpdating}
+          song={song}
+        />
+      )}
     </Flex>
   );
 };

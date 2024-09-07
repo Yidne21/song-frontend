@@ -83,3 +83,12 @@ export const selectErrorAlbumsStat = createSelector(
   [selectSlice],
   state => state.errorAlbumsStat,
 );
+
+export const selectArtistsCount = createSelector(
+  [selectSlice],
+  state => state.artistsCount,
+);
+
+export const selectSkip = createSelector([selectSlice], state => state.skip);
+
+export const selectlimit = createSelector([selectSlice], state => state.limit);

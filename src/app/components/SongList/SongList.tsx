@@ -2,8 +2,33 @@ import React from 'react';
 import { Flex } from '../Blocks';
 import SongCard from '../Card/SongCard';
 import { ISongListProps } from './types';
+import {
+  selectIsDeleted,
+  selectIsDeleting,
+  selectErrorMessage,
+} from 'app/pages/ManageSong/slices/selector';
+import { useSelector } from 'react-redux';
+import { useManageSongPageSlice } from 'app/pages/ManageSong/slices';
+import showToast from '../Toast/ShowToast';
+import { useDispatch } from 'react-redux';
 
 function SongList(props: ISongListProps) {
+  const { actions } = useManageSongPageSlice();
+  const dispatch = useDispatch();
+  const isDeleted = useSelector(selectIsDeleted);
+  const isDeleting = useSelector(selectIsDeleting);
+  const errorMessage = useSelector(selectErrorMessage);
+
+  if (isDeleted && !isDeleting) {
+    showToast('Song deleted successfully', 'success');
+    dispatch(actions.resetState());
+  }
+
+  if (errorMessage) {
+    showToast(errorMessage, 'error');
+    dispatch(actions.resetState());
+  }
+
   return (
     <Flex
       alignItems="center"
@@ -13,8 +38,8 @@ function SongList(props: ISongListProps) {
       mt={5}
       width="100%"
     >
-      {props.songs.map((item, index) => (
-        <SongCard key={index} song={item} />
+      {props.songs.map(item => (
+        <SongCard key={item._id} song={item} />
       ))}
     </Flex>
   );

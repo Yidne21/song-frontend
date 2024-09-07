@@ -1,3 +1,4 @@
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Flex } from '../Blocks';
 import { Button } from '../Blocks/Button';
@@ -45,7 +46,7 @@ function FormComponent(props: FormComponentProps) {
                   background={'blue'}
                   borderRadius={2}
                   color="white.0"
-                  disabled={props.isLoading && !props.isLoaded}
+                  disabled={props.isLoading}
                   fontSize={1}
                   fontWeight={3}
                   lineHeight="18px"

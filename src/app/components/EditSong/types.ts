@@ -1,4 +1,3 @@
-
 export type initialValuesType = {
   _id: string;
   title: string;
@@ -8,14 +7,13 @@ export type initialValuesType = {
 };
 
 export interface IEditSongComponentProps {
-  song:
-     {
-        _id: string;
-        title: string;
-        album: string;
-        genre: string;
-        artist: string;
-      }
+  song: {
+    _id: string;
+    title: string;
+    album: string;
+    genre: string;
+    artist: string;
+  };
   isUpdating: boolean;
   isUpdated: boolean;
   errorMessage: string;
