@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
 import App from './app/index';
-import { theme } from 'styles/theme';
+import { theme } from './styles/theme';
 import { Provider } from 'react-redux';
-import { configureAppStore } from 'store/configureStore';
+import { configureAppStore } from './store/configureStore';
 import Toast from 'app/components/Toast';
 
 const store = configureAppStore();

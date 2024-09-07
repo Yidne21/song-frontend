@@ -4,6 +4,7 @@ export type InputProps = {
   label: string;
   value?: string;
   onChange?: any;
+  children?: any;
 };
 
 export interface IInputFile {
