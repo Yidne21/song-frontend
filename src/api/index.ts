@@ -1,7 +1,7 @@
 import { ApiTypes } from './types';
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.baseURL = import.meta.env.VITE_API_ROUTE;
 
 function API({ method, route, payload, params }: ApiTypes): any {
   return new Promise((resolve, reject) => {
