@@ -1,10 +1,9 @@
-
 import { ApiTypes } from './types';
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:5000/api/';
+
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 function API({ method, route, payload, params }: ApiTypes): any {
-
   return new Promise((resolve, reject) => {
     axios({
       method: method,
@@ -28,14 +27,10 @@ function API({ method, route, payload, params }: ApiTypes): any {
 export default API;
 export function fetcher({ method, payload, route }: ApiTypes): any {
   return new Promise((resolve, reject) => {
-    fetch(
-      `${process.env.REACT_APP_BASE_URL
-      }/api/${route}`,
-      {
-        method: method,
-        body: payload,
-      },
-    ).then(res => {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/${route}`, {
+      method: method,
+      body: payload,
+    }).then(res => {
       if (res.status === 200) {
         resolve(res.json());
       } else if (res.status === 500) {
